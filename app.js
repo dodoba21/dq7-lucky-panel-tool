@@ -4,26 +4,22 @@
 
   const MODES = {
     "1": {
-      label: "甘口",
-      chili: "🌶️",
+      label: "關卡一",
       cols: 4, rows: 3, count: 12, shuffleLimit: 2,
       sequence: ["A","A","B","B","C","C","D","D","E","E","X","Y"]
     },
     "2": {
-      label: "中辛",
-      chili: "🌶️🌶️",
+      label: "關卡二",
       cols: 4, rows: 4, count: 16, shuffleLimit: 3,
       sequence: ["A","A","B","B","C","C","D","D","E","E","F","F","G","G","X","Y"]
     },
     "3": {
-      label: "辛口",
-      chili: "🌶️🌶️🌶️",
+      label: "關卡三",
       cols: 5, rows: 4, count: 20, shuffleLimit: 5,
       sequence: ["A","A","B","B","C","C","D","D","E","E","F","F","G","G","H","H","I","I","X","Y"]
     },
     "4": {
-      label: "激辛",
-      chili: "🌶️🌶️🌶️🌶️",
+      label: "關卡四",
       cols: 6, rows: 4, count: 24, shuffleLimit: 7,
       sequence: ["A","A","B","B","C","C","D","D","E","E","F","F","G","G","H","H","I","I","J","J","K","K","X","Y"]
     }
@@ -87,7 +83,7 @@
   function cycleModeText() {
     var idx = MODE_ORDER.indexOf(state.mode);
     var next = MODE_ORDER[(idx + 1) % MODE_ORDER.length];
-    if (next === "1") return "回到【甘口】";
+    if (next === "1") return "回到【關卡一】";
     return "前往下一難度【" + MODES[next].label + "】";
   }
 
@@ -323,7 +319,7 @@
 
       var label = document.createElement("label");
       label.setAttribute("for", id);
-      label.textContent = cfg.label + " " + cfg.chili;
+      label.textContent = cfg.label;
 
       wrap.appendChild(input);
       wrap.appendChild(label);
