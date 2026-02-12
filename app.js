@@ -1,7 +1,6 @@
 (function () {
   /* ── 常數 ── */
   const MAX_CELLS = 24;
-  const STORAGE_KEY = "dq7-lucky-panel-state";
 
   const MODES = {
     "1": {
@@ -97,43 +96,6 @@
     return MODE_ORDER[(idx + 1) % MODE_ORDER.length];
   }
 
-  /* ── LocalStorage ── */
-  function saveState() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        mode: state.mode,
-        phase: state.phase,
-        cells: state.cells,
-        shuffleCount: state.shuffleCount,
-        logs: state.logs,
-        inputSnapshot: state.inputSnapshot
-      }));
-    } catch (e) { /* 忽略儲存失敗 */ }
-  }
-
-  function loadState() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      var saved = JSON.parse(raw);
-      if (!saved || !MODES[saved.mode]) return false;
-      state.mode = saved.mode;
-      state.phase = saved.phase || "input";
-      state.cells = Array(MAX_CELLS).fill("");
-      if (Array.isArray(saved.cells)) {
-        for (var i = 0; i < MAX_CELLS && i < saved.cells.length; i++) {
-          state.cells[i] = saved.cells[i] || "";
-        }
-      }
-      state.shuffleCount = saved.shuffleCount || 0;
-      state.logs = Array.isArray(saved.logs) ? saved.logs : [];
-      state.inputSnapshot = saved.inputSnapshot || "";
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   /* ── 核心邏輯 ── */
   function resetAll() {
     state.phase = "input";
@@ -149,7 +111,7 @@
   function resetForModeChange() {
     resetAll();
     render();
-    saveState();
+
   }
 
   function restoreFromInputSnapshot() {
@@ -271,7 +233,7 @@
         state.phase = "finish";
       }
       render();
-      saveState();
+  
     });
   }
 
@@ -315,7 +277,7 @@
       state.phase = "shuffle";
     }
     render();
-    saveState();
+
   }
 
   /* ── 點擊分發 ── */
@@ -326,7 +288,7 @@
     if (state.phase === "input") {
       onInputClick(index);
       render();
-      saveState();
+  
       return;
     }
 
@@ -526,13 +488,13 @@
   reshuffleBtn.addEventListener("click", function () {
     restoreFromInputSnapshot();
     render();
-    saveState();
+
   });
 
   resetBtn.addEventListener("click", function () {
     resetAll();
     render();
-    saveState();
+
   });
 
   nextModeBtn.addEventListener("click", function () {
@@ -542,7 +504,6 @@
   });
 
   /* ── 初始化 ── */
-  loadState();
   initTabs();
   initBoard();
   render();
