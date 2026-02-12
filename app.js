@@ -404,6 +404,9 @@
   /* ── 渲染：棋盤（模式變更時重建，否則差異更新） ── */
   function initBoard() {
     var cfg = getCurrentModeConfig();
+    var cellSize = 90;
+    var boardMaxW = cfg.cols * cellSize + (cfg.cols - 1) * 7 + 16;
+    boardEl.style.maxWidth = boardMaxW + "px";
     boardEl.style.gridTemplateColumns = "repeat(" + cfg.cols + ", 1fr)";
     boardEl.style.gridTemplateRows = "repeat(" + cfg.rows + ", 1fr)";
     boardEl.innerHTML = "";
